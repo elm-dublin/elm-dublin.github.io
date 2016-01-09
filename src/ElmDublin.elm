@@ -6,13 +6,12 @@ import TransitRouter exposing (WithRoute)
 import Routes exposing (Route)
 
 type alias Model = WithRoute Route
-  { prefix: String
+  {
   }
 
-initialModel : String -> Model
-initialModel prefix =
+initialModel : Model
+initialModel =
   { transitRouter = TransitRouter.empty Routes.EmptyRoute
-  , prefix = prefix
   }
 
 
@@ -27,12 +26,12 @@ actions =
   Signal.map RouterAction TransitRouter.actions
 
 
-routerConfig : String -> TransitRouter.Config Route Action Model
-routerConfig prefix =
+routerConfig : TransitRouter.Config Route Action Model
+routerConfig =
   { mountRoute = mountRoute
   , getDurations = \_ _ _ -> (50, 200)
   , actionWrapper = RouterAction
-  , routeDecoder = Routes.decode prefix
+  , routeDecoder = Routes.decode
   }
 
 mountRoute : Route -> Route -> Model -> (Model, Effects Action)
@@ -47,7 +46,7 @@ mountRoute previousRoute route model =
 
 init : String -> (Model, Effects Action)
 init path =
-  TransitRouter.init (routerConfig path) path (initialModel path)
+  TransitRouter.init routerConfig path initialModel
 
 update : Action -> Model -> (Model, Effects Action)
 update action model =
@@ -56,4 +55,4 @@ update action model =
       (model, Effects.none)
 
     RouterAction routeAction ->
-      TransitRouter.update (routerConfig model.prefix) routeAction model
+      TransitRouter.update routerConfig routeAction model
