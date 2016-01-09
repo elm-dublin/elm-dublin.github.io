@@ -9,3 +9,6 @@ elm.js: $(SOURCES)
 
 clean:
 	rm -f elm.js
+
+serve: elm.js
+	ws --spa index.html
