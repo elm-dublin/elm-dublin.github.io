@@ -1,14 +1,18 @@
 
 SOURCES := $(wildcard src/*.elm)
+TARGET := js/elm.js
 
 .PHONY: all
-all: elm.js
+all: $(TARGET)
 
-elm.js: $(SOURCES)
-	elm make src/Main.elm --warn --output elm.js
+$(TARGET): $(SOURCES)
+	elm make src/Main.elm --warn --output $(TARGET)
 
 clean:
-	rm -f elm.js
+	rm -f $(TARGET)
 
-serve: elm.js
+install:
+	elm package install
+
+serve: $(TARGET)
 	ws --spa index.html
