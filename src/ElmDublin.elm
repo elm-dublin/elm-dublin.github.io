@@ -1,17 +1,18 @@
 module ElmDublin where
 
-import Debug
 import Effects exposing (Effects)
 import Signal
 import TransitRouter exposing (WithRoute)
 import Routes exposing (Route)
 
 type alias Model = WithRoute Route
-  {}
+  { prefix: String
+  }
 
-initialModel : Model
-initialModel =
+initialModel : String -> Model
+initialModel prefix =
   { transitRouter = TransitRouter.empty Routes.EmptyRoute
+  , prefix = prefix
   }
 
 
@@ -26,12 +27,12 @@ actions =
   Signal.map RouterAction TransitRouter.actions
 
 
-routerConfig : TransitRouter.Config Route Action Model
-routerConfig =
+routerConfig : String -> TransitRouter.Config Route Action Model
+routerConfig prefix =
   { mountRoute = mountRoute
   , getDurations = \_ _ _ -> (50, 200)
   , actionWrapper = RouterAction
-  , routeDecoder = Routes.decode
+  , routeDecoder = Routes.decode prefix
   }
 
 mountRoute : Route -> Route -> Model -> (Model, Effects Action)
@@ -46,7 +47,7 @@ mountRoute previousRoute route model =
 
 init : String -> (Model, Effects Action)
 init path =
-  TransitRouter.init routerConfig (Debug.log "initialPath" path) initialModel
+  TransitRouter.init (routerConfig path) path (initialModel path)
 
 update : Action -> Model -> (Model, Effects Action)
 update action model =
@@ -55,4 +56,4 @@ update action model =
       (model, Effects.none)
 
     RouterAction routeAction ->
-      TransitRouter.update routerConfig routeAction model
+      TransitRouter.update (routerConfig model.prefix) routeAction model

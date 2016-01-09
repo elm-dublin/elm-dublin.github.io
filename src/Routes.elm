@@ -1,8 +1,8 @@
 module Routes where
 
-import Debug
 import Effects exposing (Effects)
 import RouteParser exposing (..)
+import String
 import TransitRouter
 
 type Route
@@ -16,12 +16,12 @@ routeParsers =
   , static About "/about"
   ]
 
-decode : String -> Route
-decode path =
+decode : String -> String -> Route
+decode prefix path =
   let
-    _ = Debug.log "decode path" path
+    fixedPath = "/" ++ String.dropLeft (String.length prefix) path
   in
-    RouteParser.match routeParsers path
+    RouteParser.match routeParsers fixedPath
       |> Maybe.withDefault EmptyRoute
 
 encode : Route -> String
