@@ -14707,16 +14707,27 @@ Elm.Routes.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $TransitRouter = Elm.TransitRouter.make(_elm);
    var _op = {};
-   var encode = function (route) {    var _p0 = route;switch (_p0.ctor) {case "Home": return "/";case "About": return "/about";default: return "";}};
+   var encode = function (route) {
+      var _p0 = route;
+      switch (_p0.ctor)
+      {case "Home": return "/";
+         case "Meetup": return A2($Basics._op["++"],"/meetup/",$Basics.toString(_p0._0));
+         case "Meetups": return "/meetups";
+         default: return "";}
+   };
    var redirect = function (route) {    return $Effects.task(A2($Signal.send,$TransitRouter.pushPathAddress,encode(route)));};
    var EmptyRoute = {ctor: "EmptyRoute"};
-   var About = {ctor: "About"};
+   var Meetups = {ctor: "Meetups"};
+   var Meetup = function (a) {    return {ctor: "Meetup",_0: a};};
    var Home = {ctor: "Home"};
-   var routeParsers = _U.list([A2($RouteParser.$static,Home,"/"),A2($RouteParser.$static,About,"/about")]);
+   var routeParsers = _U.list([A2($RouteParser.$static,Home,"/")
+                              ,A4($RouteParser.dyn1,Meetup,"/meetups/",$RouteParser.$int,"")
+                              ,A2($RouteParser.$static,Meetups,"/meetups")]);
    var decode = function (path) {    return A2($Maybe.withDefault,EmptyRoute,A2($RouteParser.match,routeParsers,path));};
    return _elm.Routes.values = {_op: _op
                                ,Home: Home
-                               ,About: About
+                               ,Meetup: Meetup
+                               ,Meetups: Meetups
                                ,EmptyRoute: EmptyRoute
                                ,routeParsers: routeParsers
                                ,decode: decode
@@ -14743,7 +14754,7 @@ Elm.ElmDublin.make = function (_elm) {
       var _p0 = route;
       switch (_p0.ctor)
       {case "Home": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
-         case "About": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
+         case "Meetups": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
          default: return {ctor: "_Tuple2",_0: model,_1: $Effects.none};}
    });
    var RouterAction = function (a) {    return {ctor: "RouterAction",_0: a};};
@@ -14806,9 +14817,14 @@ Elm.Pages.make = function (_elm) {
                         return A2($Signal.message,$TransitRouter.pushPathAddress,path);
                      })]);
    };
-   var viewAbout = A2($Html.section,
+   var viewMeetup = function (meetupId) {
+      return A2($Html.section,
+      _U.list([]),
+      _U.list([A2($Html.h1,_U.list([]),_U.list([$Html.text(A2($Basics._op["++"],"Meetup ",$Basics.toString(meetupId)))]))]));
+   };
+   var viewMeetups = A2($Html.section,
    _U.list([]),
-   _U.list([A2($Html.h1,_U.list([]),_U.list([$Html.text("About Elm Dublin")])),A2($Html.p,_U.list([]),_U.list([$Html.text("We like Elm")]))]));
+   _U.list([A2($Html.h1,_U.list([]),_U.list([$Html.text("Meetups Elm Dublin")])),A2($Html.p,_U.list([]),_U.list([$Html.text("We like Elm")]))]));
    var viewHome = A2($Html.section,
    _U.list([$Html$Attributes.$class("jumbotron")]),
    _U.list([$Markdown.toHtml("\n# Elm Dublin User Group\n\nWelcome! We\'re a group dedicated to Elm programming.\nCome along to learn about Elm, chat and hack on Elm projects.\nWe\'ll be running social meetups, talks and maybe hack days.\n\nWe\'re an inclusive group, we want folks of all technical levels who are interested in learning or using Elm.\nIf Elm is your first programming language, good for you, you\'ve made a good choice!\nIf you\'ve been programming for years and you\'re dipping your toes into this \"functional lark\" then you\'re really going to like Elm.\n\nWe adhere to the conference code of conduct: http://confcodeofconduct.com\n    ")]));
@@ -14816,12 +14832,13 @@ Elm.Pages.make = function (_elm) {
       var _p1 = $TransitRouter.getRoute(model);
       switch (_p1.ctor)
       {case "Home": return viewHome;
-         case "About": return viewAbout;
+         case "Meetup": return viewMeetup(_p1._0);
+         case "Meetups": return viewMeetups;
          default: return $Html.text("Not Found");}
    });
    var header = F2(function (action,model) {
       var activeRoute = function (route) {    return _U.eq($TransitRouter.getRoute(model),route) ? _U.list([$Html$Attributes.$class("active")]) : _U.list([]);};
-      var routes = _U.list([{route: $Routes.Home,label: "Home"},{route: $Routes.About,label: "About"}]);
+      var routes = _U.list([{route: $Routes.Home,label: "Home"},{route: $Routes.Meetups,label: "Meetups"}]);
       return A2($Bootstrap$Html.navbar$,
       "navbar-default",
       _U.list([$Bootstrap$Html.containerFluid_(_U.list([$Bootstrap$Html.navbarHeader_(A2($List.map,
@@ -14847,7 +14864,14 @@ Elm.Pages.make = function (_elm) {
               _U.list([$Html$Attributes.style(A2($TransitStyle.fadeSlideLeft,100,$TransitRouter.getTransition(model)))]),
               _U.list([A2(content,action,model)]))]));
    });
-   return _elm.Pages.values = {_op: _op,view: view,header: header,content: content,viewHome: viewHome,viewAbout: viewAbout,clickTo: clickTo};
+   return _elm.Pages.values = {_op: _op
+                              ,view: view
+                              ,header: header
+                              ,content: content
+                              ,viewHome: viewHome
+                              ,viewMeetups: viewMeetups
+                              ,viewMeetup: viewMeetup
+                              ,clickTo: clickTo};
 };
 Elm.Main = Elm.Main || {};
 Elm.Main.make = function (_elm) {

@@ -1,18 +1,20 @@
 module Routes where
 
 import Effects exposing (Effects)
-import RouteParser exposing (Matcher, static)
+import RouteParser exposing (Matcher, static, dyn1, int)
 import TransitRouter
 
 type Route
   = Home
-  | About
+  | Meetup Int
+  | Meetups
   | EmptyRoute
 
 routeParsers : List (Matcher Route)
 routeParsers =
   [ static Home "/"
-  , static About "/about"
+  , dyn1 Meetup "/meetups/" int ""
+  , static Meetups "/meetups"
   ]
 
 decode : String -> Route
@@ -24,7 +26,8 @@ encode : Route -> String
 encode route =
   case route of
     Home -> "/"
-    About -> "/about"
+    Meetup meetupId -> "/meetup/" ++ toString meetupId
+    Meetups -> "/meetups"
     EmptyRoute -> ""
 
 redirect : Route -> Effects ()

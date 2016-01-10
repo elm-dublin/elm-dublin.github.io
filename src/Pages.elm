@@ -27,7 +27,7 @@ header action model =
   let
     routes =
       [ { route = Routes.Home, label = "Home" }
-      , { route = Routes.About, label = "About" }
+      , { route = Routes.Meetups, label = "Meetups" }
       ]
     activeRoute route = if TransitRouter.getRoute model == route then [ class "active" ] else []
   in
@@ -46,7 +46,8 @@ content : Address Action -> Model -> Html
 content action model =
   case (TransitRouter.getRoute model) of
     Routes.Home -> viewHome
-    Routes.About -> viewAbout
+    Routes.Meetup meetupId -> viewMeetup meetupId
+    Routes.Meetups -> viewMeetups
     Routes.EmptyRoute -> text <| "Not Found"
 
 viewHome : Html
@@ -67,12 +68,17 @@ We adhere to the conference code of conduct: http://confcodeofconduct.com
     """
     ]
 
-viewAbout : Html
-viewAbout =
+viewMeetups : Html
+viewMeetups =
   section []
-    [ h1 [] [ text "About Elm Dublin" ]
+    [ h1 [] [ text "Meetups Elm Dublin" ]
     , p [] [ text "We like Elm" ]
     ]
+
+viewMeetup : Int -> Html
+viewMeetup meetupId =
+  section []
+    [ h1 [] [ text <| "Meetup " ++ toString meetupId ] ]
 
 clickTo : String -> List Attribute
 clickTo path =

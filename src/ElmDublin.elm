@@ -39,7 +39,7 @@ mountRoute previousRoute route model =
   case route of
     Routes.Home ->
       (model, Effects.none)
-    Routes.About ->
+    Routes.Meetups ->
       (model, Effects.none)
     Routes.EmptyRoute ->
       (model, Effects.none)
