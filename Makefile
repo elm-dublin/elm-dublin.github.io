@@ -1,7 +1,7 @@
 
 SOURCES := $(wildcard src/*.elm)
 TARGET := js/elm.js
-HTML := 200.html
+HTML := 404.html
 INDEX_HTML := index.html
 
 .PHONY: all
