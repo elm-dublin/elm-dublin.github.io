@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode as Json
+import Markdown
 import Signal exposing (..)
 import TransitRouter
 import TransitStyle
@@ -50,9 +51,20 @@ content action model =
 
 viewHome : Html
 viewHome =
-  section []
-    [ h1 [] [ text "Elm Dublin User Group" ]
-    , p [] [ text "Welcome!"]
+  section [ class "jumbotron" ]
+    [ Markdown.toHtml """
+# Elm Dublin User Group
+
+Welcome! We're a group dedicated to Elm programming.
+Come along to learn about Elm, chat and hack on Elm projects.
+We'll be running social meetups, talks and maybe hack days.
+
+We're an inclusive group, we want folks of all technical levels who are interested in learning or using Elm.
+If Elm is your first programming language, good for you, you've made a good choice!
+If you've been programming for years and you're dipping your toes into this "functional lark" then you're really going to like Elm.
+
+We adhere to the conference code of conduct: http://confcodeofconduct.com
+    """
     ]
 
 viewAbout : Html
