@@ -4,17 +4,17 @@ TARGET := js/elm.js
 HTML := 404.html
 INDEX_HTML := index.html
 
-.PHONY: all
-all: $(TARGET) $(HTML)
+.PHONY: build
+build: $(TARGET) $(HTML)
 
 $(TARGET): $(SOURCES)
-	elm make src/Main.elm --warn --output $(TARGET)
+	elm make src/Main.elm --warn --output $@
 
 $(HTML): $(INDEX_HTML)
 	cp $< $@
 
 clean:
-	rm -f $(TARGET) $(HTML)
+	rm -rf $(TARGET) $(HTML) elm-stuff
 
 install:
 	elm package install
