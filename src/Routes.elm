@@ -1,7 +1,7 @@
 module Routes where
 
 import Effects exposing (Effects)
-import RouteParser exposing (..)
+import RouteParser exposing (Matcher, static)
 import TransitRouter
 
 type Route

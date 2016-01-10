@@ -1,5 +1,6 @@
 module Pages where
 
+import Bootstrap.Html exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -13,7 +14,7 @@ import Routes
 
 view : Address Action -> Model -> Html
 view action model =
-  div []
+  div [ class "container" ]
     [ header action model
     , article
         [ style (TransitStyle.fadeSlideLeft 100 (TransitRouter.getTransition model)) ]
@@ -22,14 +23,23 @@ view action model =
 
 header : Address Action -> Model -> Html
 header action model =
-  Html.header []
-    [ nav []
-      [ ul []
-        [ li [] [ a (clickTo <| Routes.encode Routes.Home) [ text "Home" ] ]
-        , li [] [ a (clickTo <| Routes.encode Routes.About) [ text "About" ] ]
-        ]
+  let
+    routes =
+      [ { route = Routes.Home, label = "Home" }
+      , { route = Routes.About, label = "About" }
       ]
-    ]
+    activeRoute route = if TransitRouter.getRoute model == route then [ class "active" ] else []
+  in
+    navbar' "navbar-default"
+      [ containerFluid_
+          [ navbarHeader_
+              (List.map (\_ -> span [ class "icon-bar" ] []) routes)
+          ]
+        , div [ class "collapse navbar-collapse" ]
+            [ ul [ class "nav navbar-nav"]
+                (List.map (\r -> li (activeRoute r.route) [ a (clickTo <| Routes.encode r.route) [ text r.label ] ]) routes)
+            ]
+      ]
 
 content : Address Action -> Model -> Html
 content action model =
