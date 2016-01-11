@@ -39,6 +39,8 @@ mountRoute previousRoute route model =
   case route of
     Routes.Home ->
       (model, Effects.none)
+    Routes.Meetup meetupId ->
+      (model, Effects.none)
     Routes.Meetups ->
       (model, Effects.none)
     Routes.EmptyRoute ->

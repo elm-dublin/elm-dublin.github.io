@@ -64,6 +64,8 @@ We're an inclusive group, we want folks of all technical levels who are interest
 If Elm is your first programming language, good for you, you've made a good choice!
 If you've been programming for years and you're dipping your toes into this "functional lark" then you're really going to like Elm.
 
+You can join our [meetup group](http://www.meetup.com/Elm-User-Group-Dublin/) to find out more about the events we run.
+
 We adhere to the conference code of conduct: http://confcodeofconduct.com
     """
     ]
@@ -72,7 +74,9 @@ viewMeetups : Html
 viewMeetups =
   section []
     [ h1 [] [ text "Meetups Elm Dublin" ]
-    , p [] [ text "We like Elm" ]
+    , Markdown.toHtml """
+We currently run our meetups through Meetup.com, you can join our group [here](http://www.meetup.com/Elm-User-Group-Dublin/).
+"""
     ]
 
 viewMeetup : Int -> Html
