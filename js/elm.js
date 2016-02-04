@@ -15198,17 +15198,25 @@ Elm.Pages.make = function (_elm) {
    _U.list([A2($Html.h1,_U.list([]),_U.list([$Html.text("Meetups Elm Dublin")]))
            ,$Markdown.toHtml("\nWe currently run our meetups through Meetup.com, you can join our group [here](http://www.meetup.com/Elm-User-Group-Dublin/).\n")]));
    var viewHome = function (model) {
+      var members = function () {
+         var _p1 = model.meetupGroup.members;
+         if (_p1 === 0) {
+               return "";
+            } else {
+               return A2($Basics._op["++"],"If you\'re curious we have ",A2($Basics._op["++"],$Basics.toString(model.meetupGroup.members)," members."));
+            }
+      }();
       return A2($Html.section,
       _U.list([$Html$Attributes.$class("jumbotron")]),
       _U.list([$Markdown.toHtml(A2($Basics._op["++"],
-      "\n# Elm Dublin User Group\n\nWelcome! We\'re a group dedicated to [Elm](http://elm-lang.org) programming.\nCome along to learn about Elm, chat and hack on Elm projects.\nWe\'ll be running social meetups, talks and maybe hack days.\n\nWe\'re an inclusive group, we want folks of all technical levels who are interested in learning or using Elm.\nIf Elm is your first programming language, good for you, you\'ve made a good choice!\nIf you\'ve been programming for years and you\'re dipping your toes into this \"functional lark\" then you\'re really going to like Elm.\n\nYou can join our [meetup group](http://www.meetup.com/Elm-User-Group-Dublin/) to find out more about the events we run.\n\nWe adhere to the conference code of conduct: http://confcodeofconduct.com\n\nIf you\'re curious we have\n    ",
-      A2($Basics._op["++"],$Basics.toString(model.meetupGroup.members)," members.")))]));
+      "\n# Elm Dublin User Group\n\nWelcome! We\'re a group dedicated to [Elm](http://elm-lang.org) programming.\nCome along to learn about Elm, chat and hack on Elm projects.\nWe\'ll be running social meetups, talks and maybe hack days.\n\nWe\'re an inclusive group, we want folks of all technical levels who are interested in learning or using Elm.\nIf Elm is your first programming language, good for you, you\'ve made a good choice!\nIf you\'ve been programming for years and you\'re dipping your toes into this \"functional lark\" then you\'re really going to like Elm.\n\nYou can join our [meetup group](http://www.meetup.com/Elm-User-Group-Dublin/) to find out more about the events we run.\n\nWe adhere to the conference code of conduct: http://confcodeofconduct.com\n\n",
+      members))]));
    };
    var content = F2(function (action,model) {
-      var _p1 = $TransitRouter.getRoute(model);
-      switch (_p1.ctor)
+      var _p2 = $TransitRouter.getRoute(model);
+      switch (_p2.ctor)
       {case "Home": return viewHome(model);
-         case "Meetup": return viewMeetup(_p1._0);
+         case "Meetup": return viewMeetup(_p2._0);
          case "Meetups": return viewMeetups;
          default: return $Html.text("Not Found");}
    });
@@ -15218,7 +15226,7 @@ Elm.Pages.make = function (_elm) {
       return A2($Bootstrap$Html.navbar$,
       "navbar-default",
       _U.list([$Bootstrap$Html.containerFluid_(_U.list([$Bootstrap$Html.navbarHeader_(A2($List.map,
-              function (_p2) {
+              function (_p3) {
                  return A2($Html.span,_U.list([$Html$Attributes.$class("icon-bar")]),_U.list([]));
               },
               routes))]))

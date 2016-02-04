@@ -52,8 +52,13 @@ content action model =
 
 viewHome : Model -> Html
 viewHome model =
-  section [ class "jumbotron" ]
-    [ Markdown.toHtml ("""
+  let
+    members = case model.meetupGroup.members of
+      0 -> ""
+      _ -> "If you're curious we have " ++ (toString model.meetupGroup.members) ++ " members."
+  in
+    section [ class "jumbotron" ]
+      [ Markdown.toHtml ("""
 # Elm Dublin User Group
 
 Welcome! We're a group dedicated to [Elm](http://elm-lang.org) programming.
@@ -68,8 +73,7 @@ You can join our [meetup group](http://www.meetup.com/Elm-User-Group-Dublin/) to
 
 We adhere to the conference code of conduct: http://confcodeofconduct.com
 
-If you're curious we have
-    """ ++ (toString model.meetupGroup.members) ++ " members.")
+""" ++ members)
     ]
 
 viewMeetups : Html
