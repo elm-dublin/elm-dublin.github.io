@@ -59,7 +59,7 @@ viewHome model =
   in
     section [ class "jumbotron" ]
       [ Markdown.toHtml ("""
-# Elm Dublin User Group
+# Elm Dublin (Ireland!) User Group
 
 Welcome! We're a group dedicated to [Elm](http://elm-lang.org) programming.
 Come along to learn about Elm, chat and hack on Elm projects.
