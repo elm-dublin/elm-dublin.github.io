@@ -4,8 +4,11 @@ TARGET := js/elm.js
 HTML := 404.html
 INDEX_HTML := index.html
 
+.PHONY: all
+all: test build
+
 .PHONY: build
-build: test $(TARGET) $(HTML)
+build: $(TARGET) $(HTML)
 
 $(TARGET): $(SOURCES)
 	elm make src/Main.elm --warn --output $@
@@ -28,6 +31,10 @@ serve: $(TARGET)
 .PHONY: test
 test: $(SOURCES)
 	mkdir -p build
-	elm make src/TestRunner.elm --warn --output build/raw-tests.js
-	bash ./elm-stuff/packages/laszlopandy/elm-console/1.0.3/elm-io.sh build/raw-tests.js build/tests.js
+	elm make src/ConsoleTestRunner.elm --warn --output build/raw-tests.js
+	bash ./elm-stuff/packages/laszlopandy/elm-console/1.1.0/elm-io.sh build/raw-tests.js build/tests.js
 	node build/tests.js
+
+.PHONY: reactor
+reactor:
+	elm reactor

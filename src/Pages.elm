@@ -45,18 +45,18 @@ header action model =
 content : Address Action -> Model -> Html
 content action model =
   case (TransitRouter.getRoute model) of
-    Routes.Home -> viewHome
+    Routes.Home -> viewHome model
     Routes.Meetup meetupId -> viewMeetup meetupId
     Routes.Meetups -> viewMeetups
     Routes.EmptyRoute -> text <| "Not Found"
 
-viewHome : Html
-viewHome =
+viewHome : Model -> Html
+viewHome model =
   section [ class "jumbotron" ]
-    [ Markdown.toHtml """
+    [ Markdown.toHtml ("""
 # Elm Dublin User Group
 
-Welcome! We're a group dedicated to Elm programming.
+Welcome! We're a group dedicated to [Elm](http://elm-lang.org) programming.
 Come along to learn about Elm, chat and hack on Elm projects.
 We'll be running social meetups, talks and maybe hack days.
 
@@ -67,7 +67,9 @@ If you've been programming for years and you're dipping your toes into this "fun
 You can join our [meetup group](http://www.meetup.com/Elm-User-Group-Dublin/) to find out more about the events we run.
 
 We adhere to the conference code of conduct: http://confcodeofconduct.com
-    """
+
+If you're curious we have
+    """ ++ (toString model.meetupGroup.members) ++ " members.")
     ]
 
 viewMeetups : Html
